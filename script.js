@@ -15,6 +15,20 @@ async function translateText() {
 
   } catch (error) {
     document.getElementById("output").innerHTML =
-      "❌ Translation failed. Try again.";
+      "❌ Error: Try again.";
   }
+}
+
+// 🎤 Voice input (KEEP THIS)
+function startVoice() {
+  let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+  recognition.lang = "en-US";
+
+  recognition.onresult = function(event) {
+    document.getElementById("inputText").value =
+      event.results[0][0].transcript;
+  };
+
+  recognition.start();
 }
