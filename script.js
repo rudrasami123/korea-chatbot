@@ -1,34 +1,30 @@
 async function translateText() {
-  let text = document.getElementById("inputText").value;
+    let text = document.getElementById("inputText").value;
 
-  try {
-    let response = await fetch(
-      "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ko&dt=t&q=" + encodeURIComponent(text)
-    );
+    try {
+        // Step 1: Translate to English first
+        let res1 = await fetch(
+            "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=" 
+            + encodeURIComponent(text)
+        );
 
-    let data = await response.json();
+        let data1 = await res1.json();
+        let english = data1[0].map(item => item[0]).join("");
 
-    let translated = data[0].map(item => item[0]).join("");
+        // Step 2: English → Korean
+        let res2 = await fetch(
+            "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" 
+            + encodeURIComponent(english)
+        );
 
-    document.getElementById("output").innerHTML =
-      "<b>Korean:</b> " + translated;
+        let data2 = await res2.json();
+        let korean = data2[0].map(item => item[0]).join("");
 
-  } catch (error) {
-    document.getElementById("output").innerHTML =
-      "❌ Error: Try again.";
-  }
-}
+        document.getElementById("output").innerHTML =
+            "<b>English:</b> " + english + "<br><br><b>Korean:</b> " + korean;
 
-// 🎤 Voice input (KEEP THIS)
-function startVoice() {
-  let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-
-  recognition.lang = "en-US";
-
-  recognition.onresult = function(event) {
-    document.getElementById("inputText").value =
-      event.results[0][0].transcript;
-  };
-
-  recognition.start();
+    } catch (error) {
+        document.getElementById("output").innerHTML =
+            "❌ Error: Try again";
+    }
 }
