@@ -6,29 +6,11 @@ async function translateText() {
         return;
     }
 
-    document.getElementById("output").innerHTML = "Translating... ⏳";
+    document.getElementById("output").innerHTML = "Opening translation... ⏳";
 
-    try {
-        let response = await fetch("https://translate.argosopentech.com/translate", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                q: text,
-                source: "auto",
-                target: "ko",
-                format: "text"
-            })
-        });
+    // Open Google Translate in new tab (WORKS 100%)
+    let url = "https://translate.google.com/?sl=auto&tl=ko&text=" 
+              + encodeURIComponent(text);
 
-        let data = await response.json();
-
-        document.getElementById("output").innerHTML =
-            "<b>Korean:</b> " + data.translatedText;
-
-    } catch (error) {
-        document.getElementById("output").innerHTML =
-            "Error: API failed ❌";
-    }
+    window.open(url, "_blank");
 }
