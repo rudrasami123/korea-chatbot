@@ -1,22 +1,23 @@
-function translateText() {
+async function translateText() {
   let text = document.getElementById("inputText").value;
 
-  // Fake translation (for now)
-  let translated = fakeTranslate(text);
+  let response = await fetch("https://libretranslate.de/translate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      q: text,
+      source: "auto",
+      target: "ko",
+      format: "text"
+    })
+  });
+
+  let data = await response.json();
 
   document.getElementById("output").innerHTML =
-    "<b>Korean:</b> " + translated;
-}
-
-// Simple mock translation
-function fakeTranslate(text) {
-  if (text.toLowerCase().includes("hello")) {
-    return "안녕하세요";
-  }
-  if (text.toLowerCase().includes("thank you")) {
-    return "감사합니다";
-  }
-  return "번역 결과 (Translation result)";
+    "<b>Korean:</b> " + data.translatedText;
 }
 
 // 🎤 Voice input
