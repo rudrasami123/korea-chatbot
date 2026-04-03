@@ -3,7 +3,7 @@ async function translateText() {
     let lang = document.getElementById("language").value;
 
     try {
-        // Step 1: Translate to English
+        // Step 1: to English
         let res1 = await fetch(
             "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + lang + "&tl=en&dt=t&q=" 
             + encodeURIComponent(text)
@@ -12,7 +12,7 @@ async function translateText() {
         let data1 = await res1.json();
         let english = data1[0].map(item => item[0]).join("");
 
-        // Step 2: English → Korean
+        // Step 2: to Korean
         let res2 = await fetch(
             "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" 
             + encodeURIComponent(english)
@@ -27,18 +27,17 @@ async function translateText() {
         window.koreanText = korean;
 
     } catch (error) {
-        document.getElementById("output").innerHTML =
-            "❌ Error: Try again";
+        document.getElementById("output").innerHTML = "❌ Error";
     }
 }
 
-// Copy button
+// Copy
 function copyText() {
     navigator.clipboard.writeText(window.koreanText || "");
-    alert("Copied Korean text!");
+    alert("Copied!");
 }
 
-// Voice input
+// Voice
 function startVoice() {
     let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = "en-US";
