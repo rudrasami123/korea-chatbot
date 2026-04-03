@@ -1,35 +1,32 @@
 async function translateText() {
-  let text = document.getElementById("inputText").value;
+    let text = document.getElementById("inputText").value;
 
-  let response = await fetch("https://libretranslate.de/translate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      q: text,
-      source: "auto",
-      target: "ko",
-      format: "text"
-    })
-  });
+    if (!text) {
+        alert("Enter text first");
+        return;
+    }
 
-  let data = await response.json();
+    try {
+        let response = await fetch("https://libretranslate.de/translate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                q: text,
+                source: "auto",
+                target: "ko",
+                format: "text"
+            })
+        });
 
-  document.getElementById("output").innerHTML =
-    "<b>Korean:</b> " + data.translatedText;
-}
+        let data = await response.json();
 
-// 🎤 Voice input
-function startVoice() {
-  let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        document.getElementById("output").innerHTML =
+            "<b>Korean:</b> " + data.translatedText;
 
-  recognition.lang = "en-US";
-
-  recognition.onresult = function(event) {
-    document.getElementById("inputText").value =
-      event.results[0][0].transcript;
-  };
-
-  recognition.start();
+    } catch (error) {
+        document.getElementById("output").innerHTML =
+            "Error: API not working ❌";
+    }
 }
