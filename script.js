@@ -1,3 +1,4 @@
+// voice fix update
 function startVoice() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
