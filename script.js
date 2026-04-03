@@ -6,8 +6,10 @@ async function translateText() {
         return;
     }
 
+    document.getElementById("output").innerHTML = "Translating... ⏳";
+
     try {
-        let response = await fetch("https://libretranslate.de/translate", {
+        let response = await fetch("https://translate.argosopentech.com/translate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -27,6 +29,6 @@ async function translateText() {
 
     } catch (error) {
         document.getElementById("output").innerHTML =
-            "Error: API not working ❌";
+            "Error: API failed ❌";
     }
 }
