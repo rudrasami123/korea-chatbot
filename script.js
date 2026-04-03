@@ -1,10 +1,11 @@
 async function translateText() {
     let text = document.getElementById("inputText").value;
+    let lang = document.getElementById("language").value;
 
     try {
-        // Step 1: Translate to English first
+        // Step 1: Translate to English
         let res1 = await fetch(
-            "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=" 
+            "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + lang + "&tl=en&dt=t&q=" 
             + encodeURIComponent(text)
         );
 
@@ -23,8 +24,29 @@ async function translateText() {
         document.getElementById("output").innerHTML =
             "<b>English:</b> " + english + "<br><br><b>Korean:</b> " + korean;
 
+        window.koreanText = korean;
+
     } catch (error) {
         document.getElementById("output").innerHTML =
             "❌ Error: Try again";
     }
+}
+
+// Copy button
+function copyText() {
+    navigator.clipboard.writeText(window.koreanText || "");
+    alert("Copied Korean text!");
+}
+
+// Voice input
+function startVoice() {
+    let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+
+    recognition.onresult = function(event) {
+        document.getElementById("inputText").value =
+            event.results[0][0].transcript;
+    };
+
+    recognition.start();
 }
