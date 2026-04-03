@@ -1,31 +1,34 @@
-async function translateText() {
-    let text = document.getElementById("inputText").value;
+function translateText() {
+  let text = document.getElementById("inputText").value;
 
-    if (!text) {
-        alert("Enter text first");
-        return;
-    }
+  // Fake translation (for now)
+  let translated = fakeTranslate(text);
 
-    document.getElementById("output").innerHTML = "Translating... ⏳";
+  document.getElementById("output").innerHTML =
+    "<b>Korean:</b> " + translated;
+}
 
-    try {
-        let res = await fetch(
-            "https://api.mymemory.translated.net/get?q=" 
-            + encodeURIComponent(text) + "&langpair=en|ko"
-        );
+// Simple mock translation
+function fakeTranslate(text) {
+  if (text.toLowerCase().includes("hello")) {
+    return "안녕하세요";
+  }
+  if (text.toLowerCase().includes("thank you")) {
+    return "감사합니다";
+  }
+  return "번역 결과 (Translation result)";
+}
 
-        let data = await res.json();
+// 🎤 Voice input
+function startVoice() {
+  let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 
-        if (data && data.responseData) {
-            document.getElementById("output").innerHTML =
-                "<b>Korean:</b> " + data.responseData.translatedText;
-        } else {
-            document.getElementById("output").innerHTML =
-                "No translation found ❌";
-        }
+  recognition.lang = "en-US";
 
-    } catch (err) {
-        document.getElementById("output").innerHTML =
-            "Error: API failed ❌";
-    }
+  recognition.onresult = function(event) {
+    document.getElementById("inputText").value =
+      event.results[0][0].transcript;
+  };
+
+  recognition.start();
 }
