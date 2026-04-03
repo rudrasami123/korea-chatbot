@@ -6,11 +6,21 @@ async function translateText() {
         return;
     }
 
-    document.getElementById("output").innerHTML = "Opening translation... ⏳";
+    document.getElementById("output").innerHTML = "Translating... ⏳";
 
-    // Open Google Translate in new tab (WORKS 100%)
-    let url = "https://translate.google.com/?sl=auto&tl=ko&text=" 
-              + encodeURIComponent(text);
+    try {
+        let res = await fetch(
+            "https://api.mymemory.translated.net/get?q=" 
+            + encodeURIComponent(text) + "&langpair=auto|ko"
+        );
 
-    window.open(url, "_blank");
+        let data = await res.json();
+
+        document.getElementById("output").innerHTML =
+            "<b>Korean:</b> " + data.responseData.translatedText;
+
+    } catch (err) {
+        document.getElementById("output").innerHTML =
+            "Error: Try again ❌";
+    }
 }
