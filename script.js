@@ -10,8 +10,11 @@ async function translateText() {
 
     try {
         let res = await fetch(
-            "https://api.mymemory.translated.net/get?q=" 
-            + encodeURIComponent(text) + "&langpair=auto|ko"
+            "https://api.allorigins.win/raw?url=" +
+            encodeURIComponent(
+                "https://api.mymemory.translated.net/get?q=" +
+                text + "&langpair=auto|ko"
+            )
         );
 
         let data = await res.json();
