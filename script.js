@@ -9,13 +9,10 @@ async function translateText() {
     document.getElementById("output").innerHTML = "Translating... ⏳";
 
     try {
-        let res = await fetch(
-            "https://api.allorigins.win/raw?url=" +
-            encodeURIComponent(
-                "https://api.mymemory.translated.net/get?q=" +
-                text + "&langpair=en|ko"
-            )
-        );
+        let url = "https://api.mymemory.translated.net/get?q=" 
+                  + encodeURIComponent(text) + "&langpair=en|ko";
+
+        let res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url));
 
         let data = await res.json();
 
