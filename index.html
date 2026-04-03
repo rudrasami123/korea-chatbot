@@ -1,25 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Korean Translator</title>
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
+    <h1>🌏 KR Korean Translator</h1>
 
-<div class="container">
-  <h2>🇰🇷 Korean Translator</h2>
+    <select id="language">
+        <option value="auto">Auto Detect</option>
+        <option value="hi">Hindi</option>
+        <option value="en">English</option>
+    </select>
 
-  <textarea id="inputText" placeholder="Type in your language..."></textarea>
+    <textarea id="inputText" placeholder="Type here..."></textarea>
 
-  <br>
+    <br><br>
 
-  <button onclick="startVoice()">🎤 Speak</button>
-  <button onclick="translateText()">Translate</button>
+    <button onclick="startVoice()">🎤 Speak</button>
+    <button onclick="translateText()">Translate</button>
 
-  <div id="output" style="margin-top:20px; font-size:20px;"></div>
-</div>
+    <div id="output"></div>
 
-<script src="script.js"></script>
-
+    <button onclick="copyText()">📋 Copy Korean</button>
 </body>
-</html>
