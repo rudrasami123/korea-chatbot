@@ -13,7 +13,7 @@ async function translateText() {
             "https://api.allorigins.win/raw?url=" +
             encodeURIComponent(
                 "https://api.mymemory.translated.net/get?q=" +
-                text + "&langpair=auto|ko"
+                text + "&langpair=en|ko"
             )
         );
 
